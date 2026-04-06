@@ -226,31 +226,16 @@ b{font-weight:600;}
   <div class="setup-sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-title">⚙️ Configuração</div>
-    <div class="sheet-sub">Configure as credenciais para conectar ao Claude AI e ao Fabric SQL. Os dados ficam salvos apenas neste dispositivo.</div>
+    <div class="sheet-sub">Configure sua API Key do Claude AI. A conexão com os dados da Wizmart já está configurada no servidor — nenhuma credencial Azure é necessária aqui.</div>
     <div class="field">
       <label>Anthropic API Key</label>
       <input type="password" id="cfgAnthropicKey" placeholder="sk-ant-…">
       <div class="hint">Obtenha em console.anthropic.com</div>
     </div>
     <div class="field">
-      <label>Azure Tenant ID</label>
-      <input type="text" id="cfgTenantId" placeholder="3208eb63-…">
-    </div>
-    <div class="field">
-      <label>Azure Client ID</label>
-      <input type="text" id="cfgClientId" placeholder="73101b4e-…">
-    </div>
-    <div class="field">
-      <label>Azure Client Secret</label>
-      <input type="password" id="cfgClientSecret" placeholder="Seu secret">
-    </div>
-    <div class="field">
-      <label>SQL Endpoint</label>
-      <input type="text" id="cfgSqlEndpoint" placeholder="xxx.datawarehouse.fabric.microsoft.com">
-    </div>
-    <div class="field">
-      <label>Database</label>
-      <input type="text" id="cfgDatabase" placeholder="LH_DATA_API">
+      <label>Modelo</label>
+      <input type="text" id="cfgModel" placeholder="claude-sonnet-4-6" value="claude-sonnet-4-6">
+      <div class="hint">Modelo Claude a utilizar (padrão: claude-sonnet-4-6)</div>
     </div>
     <button class="btn-save" onclick="saveConfig()">💾 Salvar e Conectar</button>
   </div>
@@ -403,11 +388,7 @@ function loadStorage() {
 function saveConfig() {
   cfg = {
     anthropicKey: document.getElementById('cfgAnthropicKey').value.trim(),
-    tenantId:     document.getElementById('cfgTenantId').value.trim(),
-    clientId:     document.getElementById('cfgClientId').value.trim(),
-    clientSecret: document.getElementById('cfgClientSecret').value.trim(),
-    sqlEndpoint:  document.getElementById('cfgSqlEndpoint').value.trim(),
-    database:     document.getElementById('cfgDatabase').value.trim() || 'LH_DATA_API',
+    model: document.getElementById('cfgModel')?.value.trim() || 'claude-sonnet-4-6',
   };
   localStorage.setItem('wiz_cfg', JSON.stringify(cfg));
   closeSetup();
@@ -446,34 +427,21 @@ async function getAADToken() {
 //  EXECUÇÃO SQL VIA FABRIC REST API
 // ═══════════════════════════════════════════
 async function executeSql(query) {
-  const token = await getAADToken();
-  const endpoint = `https://${cfg.sqlEndpoint}`;
-  // Usamos a REST API de execução SQL do Fabric
-  const res = await fetch(
-    `https://api.fabric.microsoft.com/v1/workspaces/1ed2fb63-82f0-44b9-bf31-3187bcf0c2eb/sqlEndpoints/88e65080-dee5-4aaf-9369-4af9cddb1da7/query`,
-    {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ query })
-    }
-  );
+  // O Worker Cloudflare cuida da autenticação AAD internamente
+  // O CLIENT_SECRET nunca é exposto ao usuário do app
+  const WORKER_URL = 'https://quiet-fire-d1e5wizmart-proxy.adm01-eba.workers.dev';
+  const res = await fetch(WORKER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query })
+  });
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`SQL Error ${res.status}: ${err.substring(0,200)}`);
+    throw new Error(`Proxy Error ${res.status}: ${err.substring(0,200)}`);
   }
   const data = await res.json();
-  // Normaliza resposta da Fabric REST API
-  const columns = (data.schema || []).map(c => c.name || c.columnName || c);
-  const rows = (data.results || data.rows || []).map(row => {
-    if (Array.isArray(row)) {
-      return Object.fromEntries(columns.map((c,i) => [c, row[i]]));
-    }
-    return row;
-  });
-  return { success: true, row_count: rows.length, columns, rows };
+  if (!data.success) throw new Error(data.error || 'Erro desconhecido no proxy');
+  return data;
 }
 
 // ═══════════════════════════════════════════
@@ -521,7 +489,7 @@ async function sendMessage() {
   const input = document.getElementById('msgInput');
   const text = input.value.trim();
   if (!text || isLoading) return;
-  if (!cfg.anthropicKey) { openSetup(); showToast('⚠️ Configure as credenciais primeiro'); return; }
+  if (!cfg.anthropicKey) { openSetup(); showToast('⚠️ Configure sua API Key Anthropic primeiro'); return; }
 
   input.value = '';
   input.style.height = 'auto';
@@ -747,11 +715,8 @@ function deleteKnowledge(i) {
 // ═══════════════════════════════════════════
 function openSetup() {
   document.getElementById('cfgAnthropicKey').value = cfg.anthropicKey || '';
-  document.getElementById('cfgTenantId').value     = cfg.tenantId     || '3208eb63-5c0e-477a-80aa-8b53f9b89d6b';
-  document.getElementById('cfgClientId').value     = cfg.clientId     || '73101b4e-6a81-414e-871b-a92293f95d90';
-  document.getElementById('cfgClientSecret').value = cfg.clientSecret || '';
-  document.getElementById('cfgSqlEndpoint').value  = cfg.sqlEndpoint  || 'mpvqqmqolr5epafkrnj7toe5nm-mp55ehxqqk4ujpzrggd3z4gc5m.datawarehouse.fabric.microsoft.com';
-  document.getElementById('cfgDatabase').value     = cfg.database     || 'LH_DATA_API';
+  const modelEl = document.getElementById('cfgModel');
+  if (modelEl) modelEl.value = cfg.model || 'claude-sonnet-4-6';
   document.getElementById('setupPanel').classList.remove('hidden');
 }
 function closeSetup() { document.getElementById('setupPanel').classList.add('hidden'); }
@@ -775,7 +740,7 @@ function setConn(state, label) {
 }
 
 function updateConn() {
-  if (cfg.anthropicKey && cfg.clientSecret) setConn('ok', 'pronto');
+  if (cfg.anthropicKey) setConn('ok', 'pronto');
   else setConn('err', 'config');
 }
 
@@ -828,7 +793,7 @@ updateConn();
 renderChips();
 
 // Abre setup automaticamente se não configurado
-if (!cfg.anthropicKey || !cfg.clientSecret) {
+if (!cfg.anthropicKey) {
   setTimeout(openSetup, 600);
 }
 </script>

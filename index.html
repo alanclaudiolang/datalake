@@ -427,20 +427,17 @@ async function getAADToken() {
 //  EXECUÇÃO SQL VIA FABRIC REST API
 // ═══════════════════════════════════════════
 async function executeSql(query) {
-  // O Worker Cloudflare cuida da autenticação AAD internamente
-  // O CLIENT_SECRET nunca é exposto ao usuário do app
-  const WORKER_URL = 'https://quiet-fire-d1e5wizmart-proxy.adm01-eba.workers.dev';
-  const res = await fetch(WORKER_URL, {
+  const res = await fetch(PROXY, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query })
+    body: JSON.stringify({ action: 'sql', query })
   });
   if (!res.ok) {
     const err = await res.text();
     throw new Error(`Proxy Error ${res.status}: ${err.substring(0,200)}`);
   }
   const data = await res.json();
-  if (!data.success) throw new Error(data.error || 'Erro desconhecido no proxy');
+  if (!data.success) throw new Error(data.error || 'Erro no proxy SQL');
   return data;
 }
 
@@ -458,26 +455,28 @@ function buildSystem() {
   return sys;
 }
 
+const PROXY = 'https://quiet-fire-d1e5wizmart-proxy.adm01-eba.workers.dev';
+
 async function callClaude(msgs) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  // Usa o Cloudflare Worker como proxy — resolve CORS e protege o secret Azure
+  const res = await fetch(PROXY, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': cfg.anthropicKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-beta': 'messages-2023-12-15'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 4096,
-      system: buildSystem(),
-      tools: TOOLS,
-      messages: msgs
+      action: 'claude',
+      anthropicKey: cfg.anthropicKey,
+      payload: {
+        model: cfg.model || 'claude-sonnet-4-6',
+        max_tokens: 4096,
+        system: buildSystem(),
+        tools: TOOLS,
+        messages: msgs
+      }
     })
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.error?.message || `Claude API ${res.status}`);
+    throw new Error(err.error?.message || `Proxy error ${res.status}`);
   }
   return res.json();
 }

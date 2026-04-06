@@ -280,70 +280,72 @@ const QUICK = [
 ];
 
 const SCHEMA = `
-TABELAS DO BANCO LH_DATA_API (Microsoft Fabric SQL):
+=== MODELO DS_Sales — Wizmart (Vending Machines) ===
 
-Sales_transactions — vendas unificadas Amlabs+Uppay+VMPay
-  colunas: date(datetime2), data(date), local, state(UF), Description(produto),
-  categoryName, totalPrice(R$), quantity, paymentMethod, pointOfSaleId,
-  productId, plataform, costOfSale, uppay(int), vmpay(int), e4(int)
+TABELA PRINCIPAL: Sales_transactions
+Contém TODAS as vendas. Use para qualquer análise comercial.
+  data (date) — data da venda [USE PARA FILTROS]
+  local — nome completo do PDV. Ex: "MM SP - FIESP 5º ANDAR..."
+  state — UF: SP, RJ, MG, ES, DF, PE, PR, RS
+  Description — nome do produto
+  categoryName — categoria: REFRIGERANTES, CHOCOLATES, DOCES, BEBIDAS, SALGADINHOS, ENERGÉTICO, SANDUÍCHES, CERVEJA, SORVETE, PADARIA, SUCOS...
+  totalPrice — valor R$ (= Venda Bruta)
+  quantity — quantidade vendida (= Volume)
+  costOfSale — custo (Margem = totalPrice - costOfSale)
+  paymentMethod — método de pagamento
+  pointOfSaleId — ID do PDV
+  productId — ID do produto
+  plataform — 'Amlabs', 'Uppay', 'VMPay'
+  code, barCode — código/EAN do produto
+  key_inventory — chave para join com estoque
+  e4(int), uppay(int), vmpay(int) — flags de plataforma
+  date (datetime2) — datetime completo
 
-Amlabs_PointsOfSale — cadastro PDVs Amlabs
-  colunas: id, machineId, localCustomerName, localName, state, active(bit),
-  lastTelemetryDate, specificLocation, tags
+MÉTRICAS (como calcular em SQL):
+  Venda Bruta = SUM(totalPrice)
+  Volume = SUM(quantity)
+  Ticket Médio ~ R$ 9,33 = SUM(totalPrice)/SUM(quantity)
+  Margem = SUM(totalPrice - costOfSale)
+  Média Diária = SUM(totalPrice) / COUNT(DISTINCT data)
 
-Amlabs_transactions — transações brutas Amlabs
-  colunas: date, totalPrice, quantity, price, paymentMethod, pointOfSaleId, productId
+TABELAS DE DIMENSÃO:
+Amlabs_PointsOfSale — cadastro PDVs
+  JOIN: Sales_transactions.pointOfSaleId = Amlabs_PointsOfSale.id
+  Colunas: id, localName, localCustomerName, state, active, lastTelemetryDate, machineId, tags, inventoryId
 
-Amlabs_Products — catálogo produtos Amlabs
-  colunas: id, code, description, barCode, categoryName, defaultPrice
+Amlabs_Products — catálogo de produtos
+  JOIN: Sales_transactions.productId = Amlabs_Products.id
+  Colunas: id, description, categoryName, barCode, code, defaultPrice
 
-Uppay_transactions — transações Uppay
-  colunas: saleDate, amount, total, machineName, productName, price, payment_typeName, createdAt
+Inventory_items — estoque atual
+  JOIN: Sales_transactions.key_inventory = Inventory_items.key_inventory
+  Colunas: inventoryId, productId, quantity(estoque), averageCost, minimumQuantity, targetQuantity, alertaEstoque
 
-VMPay_transactions — transações VMPay
-  colunas: occurred_at, value, quantity, location_name, good_name, good_category_id, good_upc_code
+Sales_transactions_pdvs_tempo_sem_venda — PDVs sem venda
+  Colunas: local, last_hours, last_hours_alerta
 
-Inventory_items — estoque por PDV/produto
-  colunas: inventoryId, productId, quantity, averageCost, reservedQuantity,
-  minimumQuantity, targetQuantity, atualizado
+Compras_Reposição_PDV — reposição
+  Colunas: local, description, quantity(estoque), vendas_30, vendas_90, averageCost, category, state
 
-Inventory_id — cadastro de inventários
-  colunas: id, externalCode, name, type
+qualidade_visitas — visitas promotores
+  Colunas: data, local, nome_promotor, Visita_aprovada, Visita_reprovada, Visita_falta, tempo_visita_minutos
 
-Compras_Reposição_PDV — análise reposição com histórico 30/90 dias
-  colunas: local, description, quantity, vendas_30, vendas_90, averageCost,
-  reservedQuantity, category, state
+promotor_folha — remuneração promotores
+  Colunas: data, nome_promotor, local, visitas, vendas_rateadas, remuneracao
 
-Compras_Inventory_items_CD — estoque no Centro de Distribuição
-  colunas: productId, qtd_estoque_cd, averageCost, state
+CONTEXTO REAL DA WIZMART:
+  PDVs ativos: ~612 | Ticket médio: R$ 9,33 | Venda média/PDV: R$ 5.748
+  Estados: SP(40%), RJ(27%), MG(14%), DF(14%), ES(5%), PE, PR, RS
+  Top categorias: REFRIGERANTES(17%), CHOCOLATES(17%), DOCES(10%), BEBIDAS(9%), SALGADINHOS(8%)
+  Top produtos: Coca-Cola S/Açúcar 350ml, Coca-Cola 350ml, Coca-Cola 1,5L, Água Crystal 500ml, Snickers 45g
 
-qualidade_visitas — visitas de promotores
-  colunas: data, local, nome_promotor, nome_supervisor_atualizado,
-  status_visita, Visita_aprovada, Visita_reprovada, Visita_falta,
-  tempo_visita_minutos, avaliação, turno_realizada
-
-qualidade_gabarito — gabaritos de visitas programadas
-  colunas: local, nome_promotor, visitas_programadas, ativo,
-  segunda/terca/quarta/quinta/sexta/sabado/domingo (turnos)
-
-qualidade_rateio_vendas_visitas — vendas rateadas por promotor/PDV
-  colunas: data, nome_promotor, local, visitas, vendas_rateadas
-
-promotor_folha — remuneração dos promotores
-  colunas: data, nome_promotor, local, visitas, vendas_rateadas, remuneracao,
-  valor_por_visita, pct_repasse
-
-Sales_transactions_pdvs_tempo_sem_venda — PDVs sem venda recente
-  colunas: local, last_hours(float), last_hours_alerta(varchar)
-
-E4_PointsOfSale — PDVs E4
-  colunas: id, nome, ativo, state, dataUltimaVenda, online, localType
-
-REGRAS SQL:
-- Sintaxe SQL Server. Use TOP N para limitar. Nunca DELETE/UPDATE/DROP.
-- Datas: WHERE data >= CAST(DATEADD(day,-30,GETDATE()) AS DATE)
-- Valores em R$ (Reais brasileiros)
-- state = UF do estado (SP, RJ, MG...)
+REGRAS SQL (SQL Server / Fabric):
+  Nunca DELETE/UPDATE/DROP/INSERT — apenas SELECT
+  TOP N para limitar sem agregação
+  Esta semana: WHERE data >= CAST(DATEADD(day,-7,GETDATE()) AS DATE)
+  Este mês: WHERE YEAR(data)=YEAR(GETDATE()) AND MONTH(data)=MONTH(GETDATE())
+  PDV por nome: WHERE local LIKE '%FIESP%'
+  Margem %: (SUM(totalPrice)-SUM(costOfSale))/NULLIF(SUM(totalPrice),0)*100
 `;
 
 const SYSTEM_BASE = `Você é o analista de dados da Wizmart, empresa brasileira de vending machines.

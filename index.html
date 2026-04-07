@@ -25,7 +25,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
   -webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;}
 #app{display:flex;flex-direction:column;height:100%;height:100dvh;}
 
-/* ── HEADER ── */
+/* \u2500\u2500 HEADER \u2500\u2500 */
 .hdr{display:flex;align-items:center;justify-content:space-between;
   padding:calc(var(--safe-top) + 10px) 16px 10px;
   background:var(--s1);border-bottom:1px solid var(--border);flex-shrink:0;gap:8px;}
@@ -49,7 +49,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
   flex-shrink:0;}
 .icon-btn:active{transform:scale(.9);background:var(--s3);}
 
-/* ── SETUP PANEL ── */
+/* \u2500\u2500 SETUP PANEL \u2500\u2500 */
 .setup-panel{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;
   display:flex;align-items:flex-end;backdrop-filter:blur(6px);}
 .setup-sheet{background:var(--s1);border-radius:20px 20px 0 0;width:100%;
@@ -74,7 +74,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
   -webkit-tap-highlight-color:transparent;transition:opacity .15s;}
 .btn-save:active{opacity:.85;}
 
-/* ── KNOWLEDGE PANEL ── */
+/* \u2500\u2500 KNOWLEDGE PANEL \u2500\u2500 */
 .know-panel{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;
   display:flex;align-items:flex-end;backdrop-filter:blur(6px);}
 .know-panel.hidden{display:none;}
@@ -98,7 +98,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
   font-weight:500;cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .btn-add-know:active{background:var(--accent);color:#fff;border-color:var(--accent);}
 
-/* ── CHAT ── */
+/* \u2500\u2500 CHAT \u2500\u2500 */
 .chat-wrap{flex:1;overflow-y:auto;overflow-x:hidden;
   padding:16px 14px 8px;display:flex;flex-direction:column;gap:14px;
   -webkit-overflow-scrolling:touch;}
@@ -156,7 +156,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(
 .typing span:nth-child(3){animation-delay:.4s;}
 @keyframes typing-dot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
 
-/* ── INPUT BAR ── */
+/* \u2500\u2500 INPUT BAR \u2500\u2500 */
 .input-bar{background:var(--s1);border-top:1px solid var(--border);
   padding:10px 12px calc(var(--safe-bot) + 10px);flex-shrink:0;}
 .input-row{display:flex;align-items:flex-end;gap:8px;
@@ -187,7 +187,7 @@ b{font-weight:600;}
   <!-- HEADER -->
   <div class="hdr">
     <div class="hdr-logo">
-      <div class="logo-orb">⚡</div>
+      <div class="logo-orb">\u26a1</div>
       Wizmart AI
     </div>
     <div class="hdr-right">
@@ -195,15 +195,15 @@ b{font-weight:600;}
         <div class="conn-dot" id="connDot"></div>
         <span id="connLabel">offline</span>
       </div>
-      <div class="icon-btn" onclick="openKnow()" title="Base de conhecimento">🧠</div>
-      <div class="icon-btn" onclick="openSetup()" title="Configurações">⚙️</div>
+      <div class="icon-btn" onclick="openKnow()" title="Base de conhecimento">\ud83e\udde0</div>
+      <div class="icon-btn" onclick="openSetup()" title="Configura\u00e7\u00f5es">\u2699\ufe0f</div>
     </div>
   </div>
 
   <!-- CHAT -->
   <div class="chat-wrap" id="chatWrap">
     <div class="welcome" id="welcomeBlock">
-      <div class="welcome-orb">⚡</div>
+      <div class="welcome-orb">\u26a1</div>
       <h2>Wizmart Intelligence</h2>
       <p>Pergunte sobre vendas, PDVs, estoque, promotores e qualidade em tempo real.</p>
       <div class="chips" id="quickChips"></div>
@@ -213,7 +213,7 @@ b{font-weight:600;}
   <!-- INPUT BAR -->
   <div class="input-bar">
     <div class="input-row">
-      <textarea id="msgInput" rows="1" placeholder="Pergunte sobre os dados…"></textarea>
+      <textarea id="msgInput" rows="1" placeholder="Pergunte sobre os dados\u2026"></textarea>
       <button class="send-btn" id="sendBtn" onclick="sendMessage()">
         <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
       </button>
@@ -225,19 +225,34 @@ b{font-weight:600;}
 <div class="setup-panel hidden" id="setupPanel">
   <div class="setup-sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title">⚙️ Configuração</div>
-    <div class="sheet-sub">Configure sua API Key do Claude AI. A conexão com os dados da Wizmart já está configurada no servidor — nenhuma credencial Azure é necessária aqui.</div>
+    <div class="sheet-title">\u2699\ufe0f Configura\u00e7\u00e3o</div>
+    <div class="sheet-sub">Configure as credenciais para conectar ao Claude AI e ao Fabric SQL. Os dados ficam salvos apenas neste dispositivo.</div>
     <div class="field">
       <label>Anthropic API Key</label>
-      <input type="password" id="cfgAnthropicKey" placeholder="sk-ant-…">
+      <input type="password" id="cfgAnthropicKey" placeholder="sk-ant-\u2026">
       <div class="hint">Obtenha em console.anthropic.com</div>
     </div>
     <div class="field">
-      <label>Modelo</label>
-      <input type="text" id="cfgModel" placeholder="claude-sonnet-4-6" value="claude-sonnet-4-6">
-      <div class="hint">Modelo Claude a utilizar (padrão: claude-sonnet-4-6)</div>
+      <label>Azure Tenant ID</label>
+      <input type="text" id="cfgTenantId" placeholder="3208eb63-\u2026">
     </div>
-    <button class="btn-save" onclick="saveConfig()">💾 Salvar e Conectar</button>
+    <div class="field">
+      <label>Azure Client ID</label>
+      <input type="text" id="cfgClientId" placeholder="73101b4e-\u2026">
+    </div>
+    <div class="field">
+      <label>Azure Client Secret</label>
+      <input type="password" id="cfgClientSecret" placeholder="Seu secret">
+    </div>
+    <div class="field">
+      <label>SQL Endpoint</label>
+      <input type="text" id="cfgSqlEndpoint" placeholder="xxx.datawarehouse.fabric.microsoft.com">
+    </div>
+    <div class="field">
+      <label>Database</label>
+      <input type="text" id="cfgDatabase" placeholder="LH_DATA_API">
+    </div>
+    <button class="btn-save" onclick="saveConfig()">\ud83d\udcbe Salvar e Conectar</button>
   </div>
 </div>
 
@@ -245,139 +260,137 @@ b{font-weight:600;}
 <div class="know-panel hidden" id="knowPanel">
   <div class="know-sheet" id="knowSheet">
     <div class="sheet-handle" onclick="closeKnow()"></div>
-    <div class="sheet-title">🧠 Base de Conhecimento</div>
+    <div class="sheet-title">\ud83e\udde0 Base de Conhecimento</div>
     <div style="font-size:13px;color:var(--text2);line-height:1.5;margin-top:-4px">
-      Adicione contexto sobre a Wizmart. O Claude usará essas informações em todas as respostas para ser mais assertivo.
+      Adicione contexto sobre a Wizmart. O Claude usar\u00e1 essas informa\u00e7\u00f5es em todas as respostas para ser mais assertivo.
     </div>
     <div id="knowList"></div>
     <div class="know-add">
-      <input type="text" id="knowTitle" placeholder="Título (ex: Regiões de atuação)">
-      <textarea id="knowText" placeholder="Descreva o contexto… (ex: A Wizmart opera em SP, RJ e MG com foco em vending machines em empresas e universidades.)"></textarea>
+      <input type="text" id="knowTitle" placeholder="T\u00edtulo (ex: Regi\u00f5es de atua\u00e7\u00e3o)">
+      <textarea id="knowText" placeholder="Descreva o contexto\u2026 (ex: A Wizmart opera em SP, RJ e MG com foco em vending machines em empresas e universidades.)"></textarea>
     </div>
-    <button class="btn-add-know" onclick="addKnowledge()">＋ Adicionar conhecimento</button>
-    <button class="btn-save" onclick="closeKnow()" style="margin-top:0">✓ Fechar</button>
+    <button class="btn-add-know" onclick="addKnowledge()">\uff0b Adicionar conhecimento</button>
+    <button class="btn-save" onclick="closeKnow()" style="margin-top:0">\u2713 Fechar</button>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  ESTADO
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 let cfg = {};
 let knowledge = [];
-let messages = [];   // histórico Claude API
+let messages = [];   // hist\u00f3rico Claude API
 let isLoading = false;
 
 const QUICK = [
   "Quais PDVs venderam mais esta semana?",
   "Qual o produto mais vendido por categoria?",
-  "Máquinas sem vender há mais de 48h",
-  "Como está o estoque no CD?",
+  "M\u00e1quinas sem vender h\u00e1 mais de 48h",
+  "Como est\u00e1 o estoque no CD?",
   "Promotores com mais visitas aprovadas",
-  "Receita total por estado este mês",
-  "PDVs precisando de reposição urgente",
+  "Receita total por estado este m\u00eas",
+  "PDVs precisando de reposi\u00e7\u00e3o urgente",
   "Vendas comparadas: Uppay vs VMPay"
 ];
 
 const SCHEMA = `
-=== MODELO DS_Sales — Wizmart (Vending Machines) ===
+TABELAS DO BANCO LH_DATA_API (Microsoft Fabric SQL):
 
-TABELA PRINCIPAL: Sales_transactions
-Contém TODAS as vendas. Use para qualquer análise comercial.
-  data (date) — data da venda [USE PARA FILTROS]
-  local — nome completo do PDV. Ex: "MM SP - FIESP 5º ANDAR..."
-  state — UF: SP, RJ, MG, ES, DF, PE, PR, RS
-  Description — nome do produto
-  categoryName — categoria: REFRIGERANTES, CHOCOLATES, DOCES, BEBIDAS, SALGADINHOS, ENERGÉTICO, SANDUÍCHES, CERVEJA, SORVETE, PADARIA, SUCOS...
-  totalPrice — valor R$ (= Venda Bruta)
-  quantity — quantidade vendida (= Volume)
-  costOfSale — custo (Margem = totalPrice - costOfSale)
-  paymentMethod — método de pagamento
-  pointOfSaleId — ID do PDV
-  productId — ID do produto
-  plataform — 'Amlabs', 'Uppay', 'VMPay'
-  code, barCode — código/EAN do produto
-  key_inventory — chave para join com estoque
-  e4(int), uppay(int), vmpay(int) — flags de plataforma
-  date (datetime2) — datetime completo
+Sales_transactions \u2014 vendas unificadas Amlabs+Uppay+VMPay
+  colunas: date(datetime2), data(date), local, state(UF), Description(produto),
+  categoryName, totalPrice(R$), quantity, paymentMethod, pointOfSaleId,
+  productId, plataform, costOfSale, uppay(int), vmpay(int), e4(int)
 
-MÉTRICAS (como calcular em SQL):
-  Venda Bruta = SUM(totalPrice)
-  Volume = SUM(quantity)
-  Ticket Médio ~ R$ 9,33 = SUM(totalPrice)/SUM(quantity)
-  Margem = SUM(totalPrice - costOfSale)
-  Média Diária = SUM(totalPrice) / COUNT(DISTINCT data)
+Amlabs_PointsOfSale \u2014 cadastro PDVs Amlabs
+  colunas: id, machineId, localCustomerName, localName, state, active(bit),
+  lastTelemetryDate, specificLocation, tags
 
-TABELAS DE DIMENSÃO:
-Amlabs_PointsOfSale — cadastro PDVs
-  JOIN: Sales_transactions.pointOfSaleId = Amlabs_PointsOfSale.id
-  Colunas: id, localName, localCustomerName, state, active, lastTelemetryDate, machineId, tags, inventoryId
+Amlabs_transactions \u2014 transa\u00e7\u00f5es brutas Amlabs
+  colunas: date, totalPrice, quantity, price, paymentMethod, pointOfSaleId, productId
 
-Amlabs_Products — catálogo de produtos
-  JOIN: Sales_transactions.productId = Amlabs_Products.id
-  Colunas: id, description, categoryName, barCode, code, defaultPrice
+Amlabs_Products \u2014 cat\u00e1logo produtos Amlabs
+  colunas: id, code, description, barCode, categoryName, defaultPrice
 
-Inventory_items — estoque atual
-  JOIN: Sales_transactions.key_inventory = Inventory_items.key_inventory
-  Colunas: inventoryId, productId, quantity(estoque), averageCost, minimumQuantity, targetQuantity, alertaEstoque
+Uppay_transactions \u2014 transa\u00e7\u00f5es Uppay
+  colunas: saleDate, amount, total, machineName, productName, price, payment_typeName, createdAt
 
-Sales_transactions_pdvs_tempo_sem_venda — PDVs sem venda
-  Colunas: local, last_hours, last_hours_alerta
+VMPay_transactions \u2014 transa\u00e7\u00f5es VMPay
+  colunas: occurred_at, value, quantity, location_name, good_name, good_category_id, good_upc_code
 
-Compras_Reposição_PDV — reposição
-  Colunas: local, description, quantity(estoque), vendas_30, vendas_90, averageCost, category, state
+Inventory_items \u2014 estoque por PDV/produto
+  colunas: inventoryId, productId, quantity, averageCost, reservedQuantity,
+  minimumQuantity, targetQuantity, atualizado
 
-qualidade_visitas — visitas promotores
-  Colunas: data, local, nome_promotor, Visita_aprovada, Visita_reprovada, Visita_falta, tempo_visita_minutos
+Inventory_id \u2014 cadastro de invent\u00e1rios
+  colunas: id, externalCode, name, type
 
-promotor_folha — remuneração promotores
-  Colunas: data, nome_promotor, local, visitas, vendas_rateadas, remuneracao
+Compras_Reposi\u00e7\u00e3o_PDV \u2014 an\u00e1lise reposi\u00e7\u00e3o com hist\u00f3rico 30/90 dias
+  colunas: local, description, quantity, vendas_30, vendas_90, averageCost,
+  reservedQuantity, category, state
 
-CONTEXTO REAL DA WIZMART:
-  PDVs ativos: ~612 | Ticket médio: R$ 9,33 | Venda média/PDV: R$ 5.748
-  Estados: SP(40%), RJ(27%), MG(14%), DF(14%), ES(5%), PE, PR, RS
-  Top categorias: REFRIGERANTES(17%), CHOCOLATES(17%), DOCES(10%), BEBIDAS(9%), SALGADINHOS(8%)
-  Top produtos: Coca-Cola S/Açúcar 350ml, Coca-Cola 350ml, Coca-Cola 1,5L, Água Crystal 500ml, Snickers 45g
+Compras_Inventory_items_CD \u2014 estoque no Centro de Distribui\u00e7\u00e3o
+  colunas: productId, qtd_estoque_cd, averageCost, state
 
-REGRAS SQL (SQL Server / Fabric):
-  Nunca DELETE/UPDATE/DROP/INSERT — apenas SELECT
-  TOP N para limitar sem agregação
-  Esta semana: WHERE data >= CAST(DATEADD(day,-7,GETDATE()) AS DATE)
-  Este mês: WHERE YEAR(data)=YEAR(GETDATE()) AND MONTH(data)=MONTH(GETDATE())
-  PDV por nome: WHERE local LIKE '%FIESP%'
-  Margem %: (SUM(totalPrice)-SUM(costOfSale))/NULLIF(SUM(totalPrice),0)*100
+qualidade_visitas \u2014 visitas de promotores
+  colunas: data, local, nome_promotor, nome_supervisor_atualizado,
+  status_visita, Visita_aprovada, Visita_reprovada, Visita_falta,
+  tempo_visita_minutos, avalia\u00e7\u00e3o, turno_realizada
+
+qualidade_gabarito \u2014 gabaritos de visitas programadas
+  colunas: local, nome_promotor, visitas_programadas, ativo,
+  segunda/terca/quarta/quinta/sexta/sabado/domingo (turnos)
+
+qualidade_rateio_vendas_visitas \u2014 vendas rateadas por promotor/PDV
+  colunas: data, nome_promotor, local, visitas, vendas_rateadas
+
+promotor_folha \u2014 remunera\u00e7\u00e3o dos promotores
+  colunas: data, nome_promotor, local, visitas, vendas_rateadas, remuneracao,
+  valor_por_visita, pct_repasse
+
+Sales_transactions_pdvs_tempo_sem_venda \u2014 PDVs sem venda recente
+  colunas: local, last_hours(float), last_hours_alerta(varchar)
+
+E4_PointsOfSale \u2014 PDVs E4
+  colunas: id, nome, ativo, state, dataUltimaVenda, online, localType
+
+REGRAS SQL:
+- Sintaxe SQL Server. Use TOP N para limitar. Nunca DELETE/UPDATE/DROP.
+- Datas: WHERE data >= CAST(DATEADD(day,-30,GETDATE()) AS DATE)
+- Valores em R$ (Reais brasileiros)
+- state = UF do estado (SP, RJ, MG...)
 `;
 
-const SYSTEM_BASE = `Você é o analista de dados da Wizmart, empresa brasileira de vending machines.
-Responda SEMPRE em português brasileiro de forma clara e direta.
+const SYSTEM_BASE = `Voc\u00ea \u00e9 o analista de dados da Wizmart, empresa brasileira de vending machines.
+Responda SEMPRE em portugu\u00eas brasileiro de forma clara e direta.
 
 Ao analisar dados:
-- Interprete os resultados, não liste linhas brutas
+- Interprete os resultados, n\u00e3o liste linhas brutas
 - Formate valores como R$ 1.234,56
 - Destaque insights relevantes em negrito
-- Se não encontrar dados, explique e sugira alternativa
-- Use TOP para limitar consultas sem agregação
+- Se n\u00e3o encontrar dados, explique e sugira alternativa
+- Use TOP para limitar consultas sem agrega\u00e7\u00e3o
 
 ${SCHEMA}`;
 
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  FERRAMENTAS CLAUDE
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 const TOOLS = [{
   name: "execute_sql",
   description: "Executa uma query SELECT no banco LH_DATA_API da Wizmart no Microsoft Fabric SQL. Use para responder perguntas sobre vendas, PDVs, estoque, promotores e qualidade. Sintaxe SQL Server. Apenas SELECT permitido.",
   input_schema: {
     type: "object",
     properties: {
-      query: { type: "string", description: "Query SQL SELECT válida (SQL Server). Use TOP N para limitar resultados." }
+      query: { type: "string", description: "Query SQL SELECT v\u00e1lida (SQL Server). Use TOP N para limitar resultados." }
     },
     required: ["query"]
   }
 }];
 
-// ═══════════════════════════════════════════
-//  PERSISTÊNCIA
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+//  PERSIST\u00caNCIA
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 function loadStorage() {
   try {
     const c = localStorage.getItem('wiz_cfg');
@@ -390,21 +403,25 @@ function loadStorage() {
 function saveConfig() {
   cfg = {
     anthropicKey: document.getElementById('cfgAnthropicKey').value.trim(),
-    model: document.getElementById('cfgModel')?.value.trim() || 'claude-sonnet-4-6',
+    tenantId:     document.getElementById('cfgTenantId').value.trim(),
+    clientId:     document.getElementById('cfgClientId').value.trim(),
+    clientSecret: document.getElementById('cfgClientSecret').value.trim(),
+    sqlEndpoint:  document.getElementById('cfgSqlEndpoint').value.trim(),
+    database:     document.getElementById('cfgDatabase').value.trim() || 'LH_DATA_API',
   };
   localStorage.setItem('wiz_cfg', JSON.stringify(cfg));
   closeSetup();
   updateConn();
-  showToast('✅ Configurações salvas!');
+  showToast('\u2705 Configura\u00e7\u00f5es salvas!');
 }
 
 function saveKnowledge() {
   localStorage.setItem('wiz_know', JSON.stringify(knowledge));
 }
 
-// ═══════════════════════════════════════════
-//  AUTENTICAÇÃO AAD
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+//  AUTENTICA\u00c7\u00c3O AAD
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 let aadTokenCache = null;
 let aadTokenExpiry = 0;
 
@@ -425,78 +442,98 @@ async function getAADToken() {
   return aadTokenCache;
 }
 
-// ═══════════════════════════════════════════
-//  EXECUÇÃO SQL VIA FABRIC REST API
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+//  EXECU\u00c7\u00c3O SQL VIA FABRIC REST API
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 async function executeSql(query) {
-  const res = await fetch(PROXY, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'sql', query })
-  });
+  const token = await getAADToken();
+  const endpoint = `https://${cfg.sqlEndpoint}`;
+  // Usamos a REST API de execu\u00e7\u00e3o SQL do Fabric
+  const res = await fetch(
+    `https://api.fabric.microsoft.com/v1/workspaces/1ed2fb63-82f0-44b9-bf31-3187bcf0c2eb/sqlEndpoints/88e65080-dee5-4aaf-9369-4af9cddb1da7/query`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ query })
+    }
+  );
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`Proxy Error ${res.status}: ${err.substring(0,200)}`);
+    throw new Error(`SQL Error ${res.status}: ${err.substring(0,200)}`);
   }
   const data = await res.json();
-  if (!data.success) throw new Error(data.error || 'Erro no proxy SQL');
-  return data;
+  // Normaliza resposta da Fabric REST API
+  const columns = (data.schema || []).map(c => c.name || c.columnName || c);
+  const rows = (data.results || data.rows || []).map(row => {
+    if (Array.isArray(row)) {
+      return Object.fromEntries(columns.map((c,i) => [c, row[i]]));
+    }
+    return row;
+  });
+  return { success: true, row_count: rows.length, columns, rows };
 }
 
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  CLAUDE API
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 function buildSystem() {
   let sys = SYSTEM_BASE;
   if (knowledge.length > 0) {
-    sys += '\n\nBASE DE CONHECIMENTO DA WIZMART:\n';
+    sys += '\
+\
+BASE DE CONHECIMENTO DA WIZMART:\
+';
     knowledge.forEach(k => {
-      sys += `\n## ${k.title}\n${k.text}\n`;
+      sys += `\
+## ${k.title}\
+${k.text}\
+`;
     });
   }
   return sys;
 }
 
-const PROXY = 'https://quiet-fire-d1e5wizmart-proxy.adm01-eba.workers.dev';
-
 async function callClaude(msgs) {
-  // Usa o Cloudflare Worker como proxy — resolve CORS e protege o secret Azure
-  const res = await fetch(PROXY, {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': cfg.anthropicKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-beta': 'messages-2023-12-15'
+    },
     body: JSON.stringify({
-      action: 'claude',
-      anthropicKey: cfg.anthropicKey,
-      payload: {
-        model: cfg.model || 'claude-sonnet-4-6',
-        max_tokens: 4096,
-        system: buildSystem(),
-        tools: TOOLS,
-        messages: msgs
-      }
+      model: 'claude-sonnet-4-6',
+      max_tokens: 4096,
+      system: buildSystem(),
+      tools: TOOLS,
+      messages: msgs
     })
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.error?.message || `Proxy error ${res.status}`);
+    throw new Error(err.error?.message || `Claude API ${res.status}`);
   }
   return res.json();
 }
 
-// ═══════════════════════════════════════════
-//  LÓGICA DE ENVIO (agentic loop)
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+//  L\u00d3GICA DE ENVIO (agentic loop)
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 async function sendMessage() {
   const input = document.getElementById('msgInput');
   const text = input.value.trim();
   if (!text || isLoading) return;
-  if (!cfg.anthropicKey) { openSetup(); showToast('⚠️ Configure sua API Key Anthropic primeiro'); return; }
+  if (!cfg.anthropicKey) { openSetup(); showToast('\u26a0\ufe0f Configure as credenciais primeiro'); return; }
 
   input.value = '';
   input.style.height = 'auto';
   isLoading = true;
   document.getElementById('sendBtn').disabled = true;
-  setConn('busy', 'pensando…');
+  setConn('busy', 'pensando\u2026');
 
   // Oculta welcome
   const wb = document.getElementById('welcomeBlock');
@@ -520,7 +557,8 @@ async function sendMessage() {
 
       if (resp.stop_reason === 'end_turn' || toolBlocks.length === 0) {
         typingEl.remove();
-        const finalText = textBlocks.map(b => b.text).join('\n');
+        const finalText = textBlocks.map(b => b.text).join('\
+');
         appendMsg('ai', finalText);
         messages = localMsgs;
         break;
@@ -530,7 +568,7 @@ async function sendMessage() {
       const toolResults = [];
       for (const tb of toolBlocks) {
         const query = tb.input.query || '';
-        updateTyping(typingEl, `🔍 ${query.substring(0,60)}…`);
+        updateTyping(typingEl, `\ud83d\udd0d ${query.substring(0,60)}\u2026`);
 
         let result;
         try {
@@ -556,7 +594,7 @@ async function sendMessage() {
     setConn('ok', 'conectado');
   } catch(e) {
     typingEl.remove();
-    appendMsg('ai', `❌ **Erro:** ${e.message}`);
+    appendMsg('ai', `\u274c **Erro:** ${e.message}`);
     setConn('err', 'erro');
   }
 
@@ -564,9 +602,9 @@ async function sendMessage() {
   document.getElementById('sendBtn').disabled = false;
 }
 
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  RENDER MENSAGENS
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 function appendMsg(role, text) {
   const wrap = document.getElementById('chatWrap');
   const el = document.createElement('div');
@@ -612,21 +650,21 @@ function appendToolBlock(query, result) {
   const wrap = document.getElementById('chatWrap');
   const id = 'tb_' + Date.now();
   const status = result.success
-    ? `✅ ${result.row_count} linha${result.row_count !== 1 ? 's' : ''}`
-    : `❌ Erro`;
+    ? `\u2705 ${result.row_count} linha${result.row_count !== 1 ? 's' : ''}`
+    : `\u274c Erro`;
   const div = document.createElement('div');
   div.className = 'tool-block';
   div.innerHTML = `
     <div class="tool-hdr" onclick="toggleTool('${id}')">
-      <span class="tool-hdr-icon">🔍</span>
-      <span class="tool-hdr-text">${query.substring(0,70)}${query.length>70?'…':''}</span>
+      <span class="tool-hdr-icon">\ud83d\udd0d</span>
+      <span class="tool-hdr-text">${query.substring(0,70)}${query.length>70?'\u2026':''}</span>
       <span style="font-size:11px;color:${result.success?'var(--green)':'var(--red)'};font-family:'DM Mono',monospace;flex-shrink:0;margin-right:4px">${status}</span>
-      <span class="tool-hdr-arrow" id="arrow_${id}">▼</span>
+      <span class="tool-hdr-arrow" id="arrow_${id}">\u25bc</span>
     </div>
     <div class="tool-body" id="body_${id}">
       <div class="tool-sql">${escHtml(query)}</div>
       ${result.success
-        ? `<div class="tool-result-info">${result.row_count} linha(s) · colunas: ${result.columns.join(', ')}</div>`
+        ? `<div class="tool-result-info">${result.row_count} linha(s) \u00b7 colunas: ${result.columns.join(', ')}</div>`
         : `<div class="tool-result-info" style="color:var(--red)">${escHtml(result.error||'')}</div>`
       }
     </div>`;
@@ -645,16 +683,17 @@ function formatText(text) {
   return text
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')
-    .replace(/\n/g,'<br>');
+    .replace(/\
+/g,'<br>');
 }
 
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  QUICK CHIPS
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 function renderChips() {
   const el = document.getElementById('quickChips');
   el.innerHTML = '';
@@ -670,9 +709,9 @@ function renderChips() {
   });
 }
 
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  KNOWLEDGE
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 function renderKnowledge() {
   const list = document.getElementById('knowList');
   list.innerHTML = '';
@@ -688,7 +727,7 @@ function renderKnowledge() {
         <div class="know-item-title">${escHtml(k.title)}</div>
         <div class="know-item-text">${escHtml(k.text)}</div>
       </div>
-      <div class="know-item-del" onclick="deleteKnowledge(${i})">🗑</div>`;
+      <div class="know-item-del" onclick="deleteKnowledge(${i})">\ud83d\uddd1</div>`;
     list.appendChild(div);
   });
 }
@@ -696,13 +735,13 @@ function renderKnowledge() {
 function addKnowledge() {
   const title = document.getElementById('knowTitle').value.trim();
   const text  = document.getElementById('knowText').value.trim();
-  if (!title || !text) { showToast('⚠️ Preencha título e conteúdo'); return; }
+  if (!title || !text) { showToast('\u26a0\ufe0f Preencha t\u00edtulo e conte\u00fado'); return; }
   knowledge.push({ title, text });
   saveKnowledge();
   document.getElementById('knowTitle').value = '';
   document.getElementById('knowText').value = '';
   renderKnowledge();
-  showToast('✅ Conhecimento adicionado!');
+  showToast('\u2705 Conhecimento adicionado!');
 }
 
 function deleteKnowledge(i) {
@@ -711,13 +750,16 @@ function deleteKnowledge(i) {
   renderKnowledge();
 }
 
-// ═══════════════════════════════════════════
-//  PAINÉIS
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+//  PAIN\u00c9IS
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 function openSetup() {
   document.getElementById('cfgAnthropicKey').value = cfg.anthropicKey || '';
-  const modelEl = document.getElementById('cfgModel');
-  if (modelEl) modelEl.value = cfg.model || 'claude-sonnet-4-6';
+  document.getElementById('cfgTenantId').value     = cfg.tenantId     || '3208eb63-5c0e-477a-80aa-8b53f9b89d6b';
+  document.getElementById('cfgClientId').value     = cfg.clientId     || '73101b4e-6a81-414e-871b-a92293f95d90';
+  document.getElementById('cfgClientSecret').value = cfg.clientSecret || '';
+  document.getElementById('cfgSqlEndpoint').value  = cfg.sqlEndpoint  || 'mpvqqmqolr5epafkrnj7toe5nm-mp55ehxqqk4ujpzrggd3z4gc5m.datawarehouse.fabric.microsoft.com';
+  document.getElementById('cfgDatabase').value     = cfg.database     || 'LH_DATA_API';
   document.getElementById('setupPanel').classList.remove('hidden');
 }
 function closeSetup() { document.getElementById('setupPanel').classList.add('hidden'); }
@@ -730,9 +772,9 @@ function openKnow() {
 function closeKnow() { document.getElementById('knowPanel').classList.add('hidden'); }
 document.getElementById('knowPanel').addEventListener('click', e => { if (e.target === e.currentTarget) closeKnow(); });
 
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  CONN STATUS
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 function setConn(state, label) {
   const dot = document.getElementById('connDot');
   const lbl = document.getElementById('connLabel');
@@ -741,13 +783,13 @@ function setConn(state, label) {
 }
 
 function updateConn() {
-  if (cfg.anthropicKey) setConn('ok', 'pronto');
+  if (cfg.anthropicKey && cfg.clientSecret) setConn('ok', 'pronto');
   else setConn('err', 'config');
 }
 
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  INPUT AUTO-RESIZE + ENTER
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 const msgInput = document.getElementById('msgInput');
 msgInput.addEventListener('input', function() {
   this.style.height = 'auto';
@@ -757,9 +799,9 @@ msgInput.addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
 
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  TOAST
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 function showToast(msg) {
   let t = document.getElementById('toast');
   if (!t) {
@@ -786,15 +828,15 @@ function showToast(msg) {
   }, 2500);
 }
 
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 //  INIT
-// ═══════════════════════════════════════════
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 loadStorage();
 updateConn();
 renderChips();
 
-// Abre setup automaticamente se não configurado
-if (!cfg.anthropicKey) {
+// Abre setup automaticamente se n\u00e3o configurado
+if (!cfg.anthropicKey || !cfg.clientSecret) {
   setTimeout(openSetup, 600);
 }
 </script>
